@@ -1,17 +1,25 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 export function ResultsDisplay({ results }) {
-  const isMultiple = Array.isArray(results)
+  const isMultiple = Array.isArray(results);
+  const isImage = typeof results === "string" && results.startsWith("blob:");
 
   const downloadResults = () => {
-    // Implement download functionality
-  }
+    if (isImage) {
+      const link = document.createElement("a");
+      link.href = results;
+      link.download = "pollution_results.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
 
   return (
     <motion.section
@@ -21,7 +29,16 @@ export function ResultsDisplay({ results }) {
       className="mt-12 p-4"
     >
       <h2 className="text-2xl font-semibold mb-4">Results</h2>
-      {isMultiple ? (
+      {isImage ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Pollution Analysis</CardTitle>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <img src={results} alt="Pollution Analysis" className="max-w-full h-auto rounded-lg" />
+          </CardContent>
+        </Card>
+      ) : isMultiple ? (
         <Card>
           <CardHeader>
             <CardTitle>Multiple Car Results</CardTitle>
@@ -99,20 +116,18 @@ export function ResultsDisplay({ results }) {
                 <p className="text-green-500">✅ Green Flag - Eco-friendly car</p>
               ) : results.flag === 1 ? (
                 <p className="text-yellow-500">Yellow Flag - You can use it freely</p>
-              )          
-              : (
+              ) : (
                 <p className="text-red-500">🚨 Red Flag - Non-compliant car</p>
               )}
             </div>
           </CardContent>
         </Card>
       )}
-      <div className="mt-4">
-        <Button onClick={downloadResults}>
-          <Download className="mr-2 h-4 w-4" /> Download Results
+      <div className="flex flex-col items-center justify-center mt-4">
+        <Button onClick={downloadResults} disabled={!isImage}>
+          <Download className=" mr-2 h-4 w-4" /> Download Results
         </Button>
       </div>
     </motion.section>
-  )
+  );
 }
-

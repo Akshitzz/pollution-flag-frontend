@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { HeroSection } from "@/components/hero-section"
 import { ResultsDisplay } from "@/components/results-display"
 import { useState } from "react"
-
+import {TrainingGraph} from "@/components/training-graph"
 export default function Home() {
   const [results, setResults] = useState(null)
 
@@ -17,6 +17,7 @@ export default function Home() {
     >
       <HeroSection setResults={setResults} />
       {results && <ResultsDisplay results={results} />}
+      <TrainingGraph />
     </motion.main>
   )
 }
