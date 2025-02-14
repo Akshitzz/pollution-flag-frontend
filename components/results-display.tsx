@@ -95,9 +95,12 @@ export function ResultsDisplay({ results }) {
             </div>
             <div className="mt-4">
               <p className="font-semibold">Status:</p>
-              {results.flag === "green" ? (
+              {results.flag === 0 ? (
                 <p className="text-green-500">✅ Green Flag - Eco-friendly car</p>
-              ) : (
+              ) : results.flag === 1 ? (
+                <p className="text-yellow-500">Yellow Flag - You can use it freely</p>
+              )          
+              : (
                 <p className="text-red-500">🚨 Red Flag - Non-compliant car</p>
               )}
             </div>
