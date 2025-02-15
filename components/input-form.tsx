@@ -1,27 +1,40 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState, FormEvent, ChangeEvent } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export function InputForm({ setResults }) {
-  const [formData, setFormData] = useState({
+interface InputFormProps {
+  setResults: (results: object) => void;
+}
+
+interface FormData {
+  numberPlate: string;
+  size: string;
+  co2: string;
+  nox: string;
+  pm25: string;
+  co: string;
+}
+
+export function InputForm({ setResults }: InputFormProps) {
+  const [formData, setFormData] = useState<FormData>({
     numberPlate: "",
     size: "",
     co2: "",
     nox: "",
     pm25: "",
     co: "",
-  })
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // Process form data and set results
-    setResults({ ...formData, flag: Math.random() > 0.5 ? "green" : "red" })
-  }
+    setResults({ ...formData, flag: Math.random() > 0.5 ? "green" : "red" });
+  };
 
   return (
     <motion.form
@@ -37,7 +50,7 @@ export function InputForm({ setResults }) {
         <Input
           id="numberPlate"
           value={formData.numberPlate}
-          onChange={(e) => setFormData({ ...formData, numberPlate: e.target.value })}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, numberPlate: e.target.value })}
         />
       </div>
       <div>
@@ -59,7 +72,7 @@ export function InputForm({ setResults }) {
           id="co2"
           type="number"
           value={formData.co2}
-          onChange={(e) => setFormData({ ...formData, co2: e.target.value })}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, co2: e.target.value })}
         />
       </div>
       <div>
@@ -68,7 +81,7 @@ export function InputForm({ setResults }) {
           id="nox"
           type="number"
           value={formData.nox}
-          onChange={(e) => setFormData({ ...formData, nox: e.target.value })}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, nox: e.target.value })}
         />
       </div>
       <div>
@@ -77,7 +90,7 @@ export function InputForm({ setResults }) {
           id="pm25"
           type="number"
           value={formData.pm25}
-          onChange={(e) => setFormData({ ...formData, pm25: e.target.value })}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, pm25: e.target.value })}
         />
       </div>
       <div>
@@ -86,13 +99,13 @@ export function InputForm({ setResults }) {
           id="co"
           type="number"
           value={formData.co}
-          onChange={(e) => setFormData({ ...formData, co: e.target.value })}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, co: e.target.value })}
         />
       </div>
       <Button type="submit" className="w-full">
         Process & Show Result
       </Button>
     </motion.form>
-  )
+  );
 }
 

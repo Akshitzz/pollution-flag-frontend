@@ -1,20 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-export function CsvUploadDialog({ isOpen, setIsOpen, setResults }) {
-  const [file, setFile] = useState(null);
+interface CsvUploadDialogProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  setResults: (results: string | object) => void;
+}
+
+export function CsvUploadDialog({ isOpen, setIsOpen, setResults }: CsvUploadDialogProps) {
+  const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
 
