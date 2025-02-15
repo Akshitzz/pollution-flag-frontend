@@ -6,7 +6,21 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
-export function ResultsDisplay({ results }) {
+interface CarResult {
+  numberPlate: string;
+  size: string;
+  co2: number;
+  nox: number;
+  pm25: number;
+  co: number;
+  flag: number;
+}
+
+interface ResultsDisplayProps {
+  results: CarResult | CarResult[] | string;
+}
+
+export function ResultsDisplay({ results }: ResultsDisplayProps) {
   const isMultiple = Array.isArray(results);
   const isImage = typeof results === "string" && results.startsWith("blob:");
 
@@ -57,7 +71,7 @@ export function ResultsDisplay({ results }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {results.map((car, index) => (
+                {results.map((car: CarResult, index: number) => (
                   <TableRow key={index}>
                     <TableCell>{car.numberPlate}</TableCell>
                     <TableCell>{car.size}</TableCell>
@@ -66,8 +80,10 @@ export function ResultsDisplay({ results }) {
                     <TableCell>{car.pm25}</TableCell>
                     <TableCell>{car.co}</TableCell>
                     <TableCell>
-                      {car.flag === "green" ? (
+                      {car.flag === 0 ? (
                         <span className="text-green-500">✅ Green Flag</span>
+                      ) : car.flag === 1 ? (
+                        <span className="text-yellow-500">Yellow Flag</span>
                       ) : (
                         <span className="text-red-500">🚨 Red Flag</span>
                       )}
@@ -87,34 +103,34 @@ export function ResultsDisplay({ results }) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="font-semibold">Number Plate:</p>
-                <p>{results.numberPlate}</p>
+                <p>{(results as CarResult).numberPlate}</p>
               </div>
               <div>
                 <p className="font-semibold">Size:</p>
-                <p>{results.size}</p>
+                <p>{(results as CarResult).size}</p>
               </div>
               <div>
                 <p className="font-semibold">CO₂ Emission:</p>
-                <p>{results.co2}</p>
+                <p>{(results as CarResult).co2}</p>
               </div>
               <div>
                 <p className="font-semibold">NOx Emission:</p>
-                <p>{results.nox}</p>
+                <p>{(results as CarResult).nox}</p>
               </div>
               <div>
                 <p className="font-semibold">PM2.5 Emission:</p>
-                <p>{results.pm25}</p>
+                <p>{(results as CarResult).pm25}</p>
               </div>
               <div>
                 <p className="font-semibold">CO Emission:</p>
-                <p>{results.co}</p>
+                <p>{(results as CarResult).co}</p>
               </div>
             </div>
             <div className="mt-4">
               <p className="font-semibold">Status:</p>
-              {results.flag === 0 ? (
+              {(results as CarResult).flag === 0 ? (
                 <p className="text-green-500">✅ Green Flag - Eco-friendly car</p>
-              ) : results.flag === 1 ? (
+              ) : (results as CarResult).flag === 1 ? (
                 <p className="text-yellow-500">Yellow Flag - You can use it freely</p>
               ) : (
                 <p className="text-red-500">🚨 Red Flag - Non-compliant car</p>

@@ -5,9 +5,14 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { InputFormDialog } from "@/components/input-form-dialog";
 import { CsvUploadDialog } from "@/components/csv-upload-dialog";
-import { BackgroundLines } from "./ui/background-lines";
+import { BackgroundLines } from "@/components/ui/background-lines";
+import Image from "next/image";
 
-export function HeroSection({ setResults }) {
+interface HeroSectionProps {
+  setResults: (results: string | object) => void;
+}
+
+export function HeroSection({ setResults }: HeroSectionProps) {
   const [isInputFormOpen, setIsInputFormOpen] = useState(false);
   const [isCsvUploadOpen, setIsCsvUploadOpen] = useState(false);
 
@@ -43,7 +48,7 @@ export function HeroSection({ setResults }) {
           </div>
         </BackgroundLines>
 
-        <img src="/images/hero-image.png" alt="car with a green flag" className="h-screen"/>
+        <Image src="/images/hero-image.png" alt="car with a green flag" className="h-screen" layout="fill" objectFit="cover" />
       </div>
 
       <InputFormDialog

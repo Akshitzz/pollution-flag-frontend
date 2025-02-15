@@ -1,26 +1,42 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useState, ChangeEvent, FormEvent } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-export function CsvUpload({ setResults }) {
-  const [file, setFile] = useState(null)
+interface CsvUploadProps {
+  setResults: (results: Result[]) => void;
+}
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0])
-  }
+interface Result {
+  numberPlate: string;
+  size: string;
+  co2: string;
+  nox: string;
+  pm25: string;
+  co: string;
+  flag: string;
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+export function CsvUpload({ setResults }: CsvUploadProps) {
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // Process CSV file and set results
     setResults([
       { numberPlate: "ABC123", size: "medium", co2: "120", nox: "0.06", pm25: "0.005", co: "1.0", flag: "green" },
       { numberPlate: "XYZ789", size: "large", co2: "180", nox: "0.08", pm25: "0.007", co: "1.2", flag: "red" },
-    ])
-  }
+    ]);
+  };
 
   return (
     <motion.form
@@ -39,6 +55,5 @@ export function CsvUpload({ setResults }) {
         Upload & Process
       </Button>
     </motion.form>
-  )
+  );
 }
-
