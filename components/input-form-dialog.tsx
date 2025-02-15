@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ export function InputFormDialog({ isOpen, setIsOpen, setResults }: InputFormDial
     nox: "",
     pm25: "",
     co: "",
-  });
+  })
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -121,6 +121,42 @@ export function InputFormDialog({ isOpen, setIsOpen, setResults }: InputFormDial
               </SelectContent>
             </Select>
           </div>
+          <div>
+            <Label htmlFor="co2">CO₂ Emission</Label>
+            <Input
+              id="co2"
+              type="number"
+              value={formData.co2}
+              onChange={(e) => setFormData({ ...formData, co2: e.target.value })}
+            />
+          </div>
+          <div>
+            <Label htmlFor="nox">NOx Emission</Label>
+            <Input
+              id="nox"
+              type="number"
+              value={formData.nox}
+              onChange={(e) => setFormData({ ...formData, nox: e.target.value })}
+            />
+          </div>
+          <div>
+            <Label htmlFor="pm25">PM2.5 Emission</Label>
+            <Input
+              id="pm25"
+              type="number"
+              value={formData.pm25}
+              onChange={(e) => setFormData({ ...formData, pm25: e.target.value })}
+            />
+          </div>
+          <div>
+            <Label htmlFor="co">CO Emission</Label>
+            <Input
+              id="co"
+              type="number"
+              value={formData.co}
+              onChange={(e) => setFormData({ ...formData, co: e.target.value })}
+            />
+          </div>
           <Button type="submit" className="w-full">
             Process & Show Result
           </Button>
@@ -129,3 +165,5 @@ export function InputFormDialog({ isOpen, setIsOpen, setResults }: InputFormDial
     </Dialog>
   );
 }
+
+
